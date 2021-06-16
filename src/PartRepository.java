@@ -1,10 +1,10 @@
+import java.net.MalformedURLException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.List;
 
 public interface PartRepository extends Remote{
 	
-	public void bind(String nomeRepository) throws RemoteException;
+	public void bind(String nomeRepository) throws RemoteException, MalformedURLException;
 	
 	public void listp() throws RemoteException;
 	
@@ -12,7 +12,7 @@ public interface PartRepository extends Remote{
 	
 	public PartObj bind(Integer codigo) throws RemoteException;
 	
-	public String showp(Integer codigo) throws RemoteException;
+	public void showp(Integer codigo) throws RemoteException;
 	
 	public void clearList() throws RemoteException;
 	

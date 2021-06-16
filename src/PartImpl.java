@@ -1,4 +1,6 @@
+import java.net.MalformedURLException;
 import java.rmi.Naming;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashSet;
@@ -17,8 +19,8 @@ public class PartImpl extends UnicastRemoteObject implements PartRepository{
 	}
 
 	@Override
-	public void bind(String nomeRepository) throws RemoteException {
-		// TODO Auto-generated method stub
+	public void bind(String nomeRepository) throws RemoteException, MalformedURLException {
+		Naming.rebind(nomeRepository, (Remote) this);
 		
 	}
 
@@ -44,13 +46,14 @@ public class PartImpl extends UnicastRemoteObject implements PartRepository{
 	}
 
 	@Override
-	public String showp(Integer codigo) throws RemoteException {
+	public void showp(Integer codigo) throws RemoteException {
 		for(int i=0; i<pecaCorrente.size(); i++) {
 			if (pecaCorrente.get(i).getCodigoPeca().equals(codigo)) {
-				return pecaCorrente.get(i).getCodigoPeca().toString();
+				System.out.println("Codigo: " + pecaCorrente.get(i).getCodigoPeca().toString());
+				System.out.println("Nome: " + pecaCorrente.get(i).getNomePeca().toString());
+				System.out.println("Descricao: " + pecaCorrente.get(i).getDescricaoPeca().toString());
 			}
 		}
-		return "";
 	}
 
 	@Override
@@ -69,7 +72,7 @@ public class PartImpl extends UnicastRemoteObject implements PartRepository{
 	public void quit() throws RemoteException {
 		 try{
 		        // Unregister ourself
-		        Naming.unbind("rmi://192.168.0.14:1099/PartRepositoryService");
+		        Naming.unbind("rmi://192.168.15.140:1099/PartRepositoryService");
 
 		        // Unexport; this will also remove us from the RMI runtime
 		        UnicastRemoteObject.unexportObject(this, true);
