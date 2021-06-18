@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.List;
 
 public class PartObj {
@@ -5,7 +6,7 @@ public class PartObj {
 	private Integer codigoPeca;
 	private String nomePeca;
 	private String descricaoPeca;
-	private List<PartObj> pecas;
+	private HashMap<PartObj, Integer> pecas;
 	
 	public Integer getCodigoPeca() {
 		return codigoPeca;
@@ -25,10 +26,10 @@ public class PartObj {
 	public void setDescricaoPeca(String descricaoPeca) {
 		this.descricaoPeca = descricaoPeca;
 	}
-	public List<PartObj> getPecas() {
+	public HashMap<PartObj, Integer> getPecas() {
 		return pecas;
 	}
-	public void setPecas(List<PartObj> pecas) {
+	public void setPecas(HashMap<PartObj, Integer> pecas) {
 		this.pecas = pecas;
 	}
 	

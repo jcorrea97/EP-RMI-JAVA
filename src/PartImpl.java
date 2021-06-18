@@ -2,7 +2,10 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -12,7 +15,7 @@ public class PartImpl extends UnicastRemoteObject implements PartRepository{
 	private static final long serialVersionUID = 1L;
 	
 	private HashSet<PartObj> part;
-	private List<PartObj> pecaCorrente;
+	//private List<PartObj> pecaCorrente;
 
 	protected PartImpl() throws RemoteException {
 		super();
@@ -20,7 +23,8 @@ public class PartImpl extends UnicastRemoteObject implements PartRepository{
 
 	@Override
 	public void bind(String nomeRepository) throws RemoteException, MalformedURLException {
-		Naming.rebind(nomeRepository, (Remote) this);
+		Registry registry = LocateRegistry.getRegistry();
+		registry.rebind(nomeRepository, (Remote) this);
 		
 	}
 
@@ -32,53 +36,54 @@ public class PartImpl extends UnicastRemoteObject implements PartRepository{
 	}
 
 	@Override
-	public void getp(String codigoPeca) throws RemoteException {
-		if (part.contains(codigoPeca)) {
-			
-		}
-		
-	}
-
-	@Override
-	public PartObj bind(Integer codigo) throws RemoteException {
-		// TODO Auto-generated method stub
+	public PartObj getp(Integer codigoPeca) throws RemoteException {
+		for (PartObj item : part) {
+	        if (item.getCodigoPeca().equals(codigoPeca))
+	          return item;
+	      } 
 		return null;
-	}
-
-	@Override
-	public void showp(Integer codigo) throws RemoteException {
-		for(int i=0; i<pecaCorrente.size(); i++) {
-			if (pecaCorrente.get(i).getCodigoPeca().equals(codigo)) {
-				System.out.println("Codigo: " + pecaCorrente.get(i).getCodigoPeca().toString());
-				System.out.println("Nome: " + pecaCorrente.get(i).getNomePeca().toString());
-				System.out.println("Descricao: " + pecaCorrente.get(i).getDescricaoPeca().toString());
-			}
-		}
-	}
-
-	@Override
-	public void clearList() throws RemoteException {
-		part.clear();
 		
+	}
+
+	@Override
+	public void showp(PartObj pecaCorrente) throws RemoteException {
+		System.out.println("Codigo: " + pecaCorrente.getCodigoPeca().toString());
+		System.out.println("Nome: " + pecaCorrente.getNomePeca().toString());
+		System.out.println("Descricao: " + pecaCorrente.getDescricaoPeca().toString());
+	}
+
+	@Override
+	public void clearList(PartObj pecaCorrente) throws RemoteException {
+		pecaCorrente.getPecas().clear();
+	}
+	
+	@Override
+	public void addsubpart(HashMap<PartObj, Integer> subPecasCorrente, PartObj pecaCorrente, Integer n) throws RemoteException {
+		subPecasCorrente.put(pecaCorrente, n);
 	}
 
 	@Override
 	public void addp(PartObj part) throws RemoteException {
 		this.part.add(part);
+		for (PartObj newPart : this.part) {
+	        if (newPart.equals(part)) 
+	          newPart.setPecas(part.getPecas());
+	      } 
 		
 	}
 
 	@Override
-	public void quit() throws RemoteException {
+	public void quit(String servidorCorrente) throws RemoteException {
 		 try{
 		        // Unregister ourself
-		        Naming.unbind("rmi://192.168.15.140:1099/PartRepositoryService");
-
+				 Registry registry = LocateRegistry.getRegistry();
+				 registry.unbind(servidorCorrente);
+	
 		        // Unexport; this will also remove us from the RMI runtime
 		        UnicastRemoteObject.unexportObject(this, true);
-
+	
 		        System.out.println("exiting.");
-		    }
+	        }
 		    catch(Exception e){}
 		
 	}
@@ -87,6 +92,8 @@ public class PartImpl extends UnicastRemoteObject implements PartRepository{
 	public String testeHelloWorld() throws RemoteException {
 		return "parmera vc me da depressao";
 	}
+
 	
+
 
 }

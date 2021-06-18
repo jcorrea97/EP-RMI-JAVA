@@ -1,8 +1,14 @@
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 public class Client {
+	
+	private Server serverCorrente;
+	private PartObj pecaCorrente;
+	private HashMap<PartObj, Integer> subPecasCorrente = pecaCorrente.getPecas();
 	
 	public static void main(String[] args) {
 		try {
