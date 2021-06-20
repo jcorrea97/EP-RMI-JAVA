@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 
-public class PartObj {
+public class PartObj implements Serializable{
 	
 	private Integer codigoPeca;
 	private String nomePeca;
@@ -32,6 +33,7 @@ public class PartObj {
 	public void setPecas(HashMap<PartObj, Integer> pecas) {
 		this.pecas = pecas;
 	}
-	
+
+		
 
 }

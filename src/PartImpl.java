@@ -14,7 +14,7 @@ public class PartImpl extends UnicastRemoteObject implements PartRepository{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private HashSet<PartObj> part;
+	private HashSet<PartObj> part = new HashSet<PartObj>();
 	//private List<PartObj> pecaCorrente;
 
 	protected PartImpl() throws RemoteException {
@@ -30,8 +30,13 @@ public class PartImpl extends UnicastRemoteObject implements PartRepository{
 
 	@Override
 	public void listp() throws RemoteException {
-		for (PartObj item : part) {
-		    System.out.println (item);
+		System.out.println ("-----------------------------------");
+		System.out.println("Lista de Pecas: \n");
+		for (PartObj item : part) {			
+		    System.out.println ("Nome peca: " + item.getNomePeca());
+		    System.out.println ("descricao peca: " + item.getDescricaoPeca());
+		    System.out.println ("pecas: " + item.getPecas());
+		    System.out.println ("-----------------------------------");
 		}
 	}
 
@@ -39,6 +44,7 @@ public class PartImpl extends UnicastRemoteObject implements PartRepository{
 	public PartObj getp(Integer codigoPeca) throws RemoteException {
 		for (PartObj item : part) {
 	        if (item.getCodigoPeca().equals(codigoPeca))
+	        	System.out.println(item.toString());
 	          return item;
 	      } 
 		return null;
@@ -54,6 +60,7 @@ public class PartImpl extends UnicastRemoteObject implements PartRepository{
 
 	@Override
 	public void clearList(PartObj pecaCorrente) throws RemoteException {
+		System.out.println("Pecas foram limpadas");
 		pecaCorrente.getPecas().clear();
 	}
 	
@@ -64,6 +71,7 @@ public class PartImpl extends UnicastRemoteObject implements PartRepository{
 
 	@Override
 	public void addp(PartObj part) throws RemoteException {
+		System.out.println("Peça criada : " + "codigo: " + part.getCodigoPeca() + "Nome: " + part.getNomePeca());
 		this.part.add(part);
 		for (PartObj newPart : this.part) {
 	        if (newPart.equals(part)) 
@@ -90,7 +98,7 @@ public class PartImpl extends UnicastRemoteObject implements PartRepository{
 
 	@Override
 	public String testeHelloWorld() throws RemoteException {
-		return "parmera vc me da depressao";
+		return "abcdejfjfjfjjfjf";
 	}
 
 	
