@@ -15,7 +15,7 @@ public class Server {
 			String host = scan.next();
 			scan.close();
 			registry.bind(host, c);
-			System.out.println("Servidor " + host + " iniciado");
+			System.out.println("\nServidor " + host + " iniciado\n");
 			//Naming.rebind(host, (Remote) c);
 		} catch (Exception e) {
 			e.printStackTrace();

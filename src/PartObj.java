@@ -1,9 +1,9 @@
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
 
 public class PartObj implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	private Integer codigoPeca;
 	private String nomePeca;
 	private String descricaoPeca;

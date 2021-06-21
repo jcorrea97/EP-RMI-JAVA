@@ -1,5 +1,4 @@
 import java.net.MalformedURLException;
-import java.rmi.Naming;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -7,7 +6,6 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 
 public class PartImpl extends UnicastRemoteObject implements PartRepository{
 
@@ -33,9 +31,7 @@ public class PartImpl extends UnicastRemoteObject implements PartRepository{
 		System.out.println ("-----------------------------------");
 		System.out.println("Lista de Pecas: \n");
 		for (PartObj item : part) {			
-		    System.out.println ("Nome peca: " + item.getNomePeca());
-		    System.out.println ("descricao peca: " + item.getDescricaoPeca());
-		    System.out.println ("pecas: " + item.getPecas());
+		    System.out.println ("Nome da peca: " + item.getNomePeca());
 		    System.out.println ("-----------------------------------");
 		}
 	}
@@ -43,25 +39,28 @@ public class PartImpl extends UnicastRemoteObject implements PartRepository{
 	@Override
 	public PartObj getp(Integer codigoPeca) throws RemoteException {
 		for (PartObj item : part) {
-	        if (item.getCodigoPeca().equals(codigoPeca))
-	        	System.out.println(item.toString());
-	          return item;
-	      } 
+	        if (item.getCodigoPeca().equals(codigoPeca)) {
+	        	System.out.println("Peca " + item.getNomePeca() + " encontrada! Agora ela e sua peca corrente!");
+	        	return item;
+	        }
+	    }
+		System.out.println("Nao ha pecas com esse codigo neste servidor");
 		return null;
 		
 	}
 
 	@Override
 	public void showp(PartObj pecaCorrente) throws RemoteException {
+		System.out.println("Mostrando atributos da peça corrente...\n");
 		System.out.println("Codigo: " + pecaCorrente.getCodigoPeca().toString());
 		System.out.println("Nome: " + pecaCorrente.getNomePeca().toString());
 		System.out.println("Descricao: " + pecaCorrente.getDescricaoPeca().toString());
 	}
 
 	@Override
-	public void clearList(PartObj pecaCorrente) throws RemoteException {
-		System.out.println("Pecas foram limpadas");
-		pecaCorrente.getPecas().clear();
+	public void clearList(HashMap<PartObj, Integer> subPecas) throws RemoteException {
+		System.out.println("Limpando lista de subpecas corrente");
+		subPecas.clear();
 	}
 	
 	@Override
@@ -71,13 +70,13 @@ public class PartImpl extends UnicastRemoteObject implements PartRepository{
 
 	@Override
 	public void addp(PartObj part) throws RemoteException {
-		System.out.println("Peça criada : " + "codigo: " + part.getCodigoPeca() + "Nome: " + part.getNomePeca());
+		System.out.println("---------------NOVA PECA---------------");
 		this.part.add(part);
 		for (PartObj newPart : this.part) {
 	        if (newPart.equals(part)) 
 	          newPart.setPecas(part.getPecas());
-	      } 
-		
+	      }
+		System.out.println("Codigo: " + part.getCodigoPeca() + "\nNome: " + part.getNomePeca());
 	}
 
 	@Override
@@ -95,13 +94,4 @@ public class PartImpl extends UnicastRemoteObject implements PartRepository{
 		    catch(Exception e){}
 		
 	}
-
-	@Override
-	public String testeHelloWorld() throws RemoteException {
-		return "abcdejfjfjfjjfjf";
-	}
-
-	
-
-
 }
