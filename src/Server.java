@@ -6,7 +6,7 @@ public class Server {
 
 	Server() {
 		try {
-			//System.setProperty("java.rmi.server.hostname", "192.168.15.140");
+			//System.setProperty("java.rmi.server.hostname", "127.0.0.1");
 			Registry registry = LocateRegistry.getRegistry();
 			//LocateRegistry.createRegistry(1099);
 			PartRepository c = new PartImpl();

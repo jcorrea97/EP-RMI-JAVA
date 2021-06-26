@@ -1,5 +1,6 @@
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Arrays;
 
 public class PartObj implements Serializable{
 	
@@ -7,7 +8,8 @@ public class PartObj implements Serializable{
 	private Integer codigoPeca;
 	private String nomePeca;
 	private String descricaoPeca;
-	private HashMap<PartObj, Integer> pecas;
+	public HashMap<PartObj, Integer> pecas;
+	private int contador = 0;
 	
 	public Integer getCodigoPeca() {
 		return codigoPeca;
@@ -33,7 +35,42 @@ public class PartObj implements Serializable{
 	public void setPecas(HashMap<PartObj, Integer> pecas) {
 		this.pecas = pecas;
 	}
+	public void addSubPecas(PartObj newSubPart, Integer codigoSubPart) {
+		if(contador == 0){
+			pecas = new HashMap<PartObj, Integer>();
+			contador = 1;
+		}
+
+		pecas.put(newSubPart, codigoSubPart);
+
+		//System.out.println(newSubPart.getNomePeca());
+		//pecas.forEach((key, value) -> System.out.println(key.getNomePeca() + " " + value));
+
+	}
 
 		
+
+	// public static void main(String[] args){
+
+
+	// 	PartObj newSubPart = new PartObj();
+			        	
+	// 	int intCodigo = 123;
+	// 	newSubPart.setCodigoPeca(intCodigo);
+		
+
+	// 	String descricaoEscolhida = "teste";
+	// 	newSubPart.setDescricaoPeca(descricaoEscolhida);
+		
+	
+	// 	String nomeEscolhido = "teste";
+	// 	newSubPart.setNomePeca(nomeEscolhido);
+
+
+	// //	System.out.println(newSubPart.getNomePeca());
+
+
+	// 	addSubPecas(newSubPart, 3);
+	// }
 
 }

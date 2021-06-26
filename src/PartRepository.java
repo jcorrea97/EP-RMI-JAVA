@@ -15,7 +15,7 @@ public interface PartRepository extends Remote{
 	
 	public void clearList(HashMap<PartObj, Integer> subPecas) throws RemoteException;
 	
-	public void addsubpart(HashMap<PartObj, Integer> subPecasCorrente, PartObj pecaCorrente, Integer n) throws RemoteException;
+	public void addsubpart(PartObj subPecasCorrente, PartObj pecaCorrente, Integer n) throws RemoteException;
 	
 	public void addp(PartObj part) throws RemoteException;
 	

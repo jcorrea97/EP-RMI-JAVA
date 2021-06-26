@@ -8,6 +8,7 @@ public class Client {
 	private static Registry serverCorrente;
 	private static PartObj pecaCorrente;
 	private static HashMap<PartObj, Integer> subPecasCorrente;
+	private static int codigoBuscado;
 	
 	public static void main(String[] args) {
 		try {
@@ -66,7 +67,7 @@ public class Client {
 		            
 				case 3:
 					System.out.print("Digite o codigo da peca a ser buscada: ");
-					int codigoBuscado = scan.nextInt();
+					codigoBuscado = scan.nextInt();
 					pecaCorrente = c.getp(codigoBuscado);
 					subPecasCorrente = pecaCorrente.getPecas();
 					break;
@@ -82,8 +83,34 @@ public class Client {
 				case 6:
 					System.out.print("Digite a quantidade da peca corrente a ser adicionada na lista de subpecas: ");
 					int qtdPecas = scan.nextInt();
-					c.addsubpart(subPecasCorrente, pecaCorrente, qtdPecas);
-					System.out.println(qtdPecas + " " + pecaCorrente.getNomePeca() + " adicionadas em subpecas");
+
+					if(subPecasCorrente == null){
+
+						//subPecasCorrente = new HashMap<PartObj, Integer>();
+						PartObj newSubPart = new PartObj();
+			        	
+			        	System.out.print("Codigo da nova subpeca: ");
+			    		String codigoEscolhido = scan.next();
+			    		int intCodigo = Integer.parseInt(codigoEscolhido);
+			    		newSubPart.setCodigoPeca(intCodigo);
+			    		
+			    		System.out.print("Descricao da nova subpeca: ");
+			    		String descricaoEscolhida = scan.next();
+			    		newSubPart.setDescricaoPeca(descricaoEscolhida);
+			    		
+			    		System.out.print("Nome da nova subpeca: ");
+			    		String nomeEscolhido = scan.next();
+			    		newSubPart.setNomePeca(nomeEscolhido);
+
+						//subPecasCorrente.put(newSubPart,qtdPecas); 
+
+						c.addsubpart(newSubPart, pecaCorrente, qtdPecas);
+						System.out.println(qtdPecas + " sub pecas adiconadas a " + pecaCorrente.getNomePeca());
+
+					
+						subPecasCorrente = pecaCorrente.getPecas();
+					}
+					break;
 					
 		        case 7:
 		        	PartObj newPart = new PartObj();
